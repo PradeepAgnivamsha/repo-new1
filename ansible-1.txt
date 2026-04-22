@@ -1,0 +1,73 @@
+========================ANSIBLE=========================
+>configure 4 systems .....with ubuntu o.s 22.04 VERSION  + s.g WITH ALL TRAFFIC .................>
+>take ssh connection from the controller node 
+============================================================
+
+>to install python on ubuntu ec2-instances 
+$sudo apt-get update
+$sudo apt install python2-minimal
+$sudo python2 --version
+$ls /usr/bin/python*
+$sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 1
+$sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 2
+$sudo update-alternatives --config python
+$python --version
+======================================================================== 
+............to install pip2.............
+PIP ...>it allows the necessary packeges to run  ,which are not present  python library 
+so only we use python2 pip for python2 package , python3 pip for python 3 
+================================================================================ 
+$sudo apt update
+$sudo apt install curl
+$curl -O https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
+$sudo python2 get-pip.py
+
+++++++++++++++++++++++++++++++++++++++++++
+curl -----used to donwload the data fles from the server to developer machine 
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+............set password for all server machines .............
+$sudo passwd ubuntu
+new p/w :ubuntu
+retype p/w;ubuntu
+$sudo vim /etc/ssh/sshd_config
+(here search for password authentication line and type yes)
+$sudo service ssh restart
+.......................................................
+>>>controller side configurATION
+*INSTALL PYTHON2 + pip2  THERE ALSO 
+*generate key for ssh connection on conroller *
+$ssh-keygen
+$ssh-copy-id ubuntu@172.31.18.134 (private ip of server-1)
+$ssh-copy-id ubuntu@172.31.20.33 (private ip of server-2)
+$ssh-copy-id ubuntu@172.31.25.61(private ip of server-3)
+=============================OR=================
+COPY THE SSH KEY OF THE CONTROLLER TO NODE MACHINES ...(vi .ssh/authorized_keys)
+===========================================================================
+......................................................................
+install ansible in controller machine only ***
+--------------------------------------------------------
+$sudo apt-get install software-properties-common
+$sudo apt-add-repository ppa:ansible/ansible
+$sudo apt-get update
+$sudo apt-get install -y ansible
+$ansible --version
+...........................................
+write ip addresses of nodes (all 3 servers ) in inventory file
+private ip address of node-1 >  172.31.28.75   
+private ip address of node-2 >   172.31.22.175     
+
+$cd /etc/ansible
+$ls
+ansible.cfg  hosts  roles
+$sudo vim hosts
+(insert the private ip address of the 3 server machines on top lines)
++save and quit.
+$cd
+$ls -la(to list all the current files + hidden files )
+$ansible all -a 'ls -la'
+.............................................
+to ping all the node machines 
+$ansible all -m ping 
+
+
